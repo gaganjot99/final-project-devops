@@ -1,6 +1,13 @@
 ---
 - name: pinging the servers
+  gather_facts: True
+  become: yes
+
+  vars:
+    source_file: ./index.html
+    dest_file: /var/www/html
   hosts: webservers
+
   tasks:
    - name: Ping my hosts
      ansible.builtin.ping:
@@ -8,3 +15,16 @@
    - name: Print message
      ansible.builtin.debug:
       msg: Hello world
+
+   - name: Install Apache Web Server for RPM
+     yum: name=httpd state=latest
+     when: ansible_os_family == "RedHat"
+
+   - name: Copy index.html
+     copy: src={{ source_file }} dest={{ dest_file }} mode=0555
+
+   - name: Restart Httpd
+     service: name=httpd state=restarted
+   
+   - name: Start Apache Web Server
+     service: name=httpd state=started enabled=yes
