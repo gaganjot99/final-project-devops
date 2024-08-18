@@ -88,22 +88,5 @@ resource "aws_route_table_association" "public_route_table_association" {
   subnet_id      = aws_subnet.public_subnet[count.index].id
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
 
-  tags = merge(local.default_tags,
-    {
-      "Name" = "${var.prefix}-igw"
-    }
-  )
-}
-
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
-
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_subnet[0].id
-}
 
