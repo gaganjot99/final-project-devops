@@ -87,32 +87,32 @@ jobs:
 
     # Deploy the 'networks' module
     - name: Terraform Init - networks
-      working-directory: Terraform/Env/networks
+      working-directory: ../Terraform/Env/networks
       run: terraform init
 
     - name: Terraform Plan - networks
-      working-directory: Terraform/Env/networks
+      working-directory: ../Terraform/Env/networks
       run: terraform plan -input=false
 
     - name: Terraform Apply - networks
-      working-directory: Terraform/Env/networks
+      working-directory: ../Terraform/Env/networks
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
 
     # Deploy the 'servers' module
     - name: Terraform Init - servers
-      working-directory: Terraform/Env/servers
+      working-directory: ../Terraform/Env/servers
       run: terraform init
 
     - name: Terraform Plan - servers
-      working-directory: Terraform/Env/servers
+      working-directory: ../Terraform/Env/servers
       run: terraform plan -input=false
 
     - name: Terraform Apply - servers
-      working-directory: Terraform/Env/servers
+      working-directory: ../Terraform/Env/servers
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
     - name: Terraform Apply - servers
-      working-directory: ./Terraform/Env/servers
+      working-directory: ./../Terraform/Env/servers
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
