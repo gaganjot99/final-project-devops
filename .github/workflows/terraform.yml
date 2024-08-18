@@ -85,34 +85,15 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    # Deploy the 'networks' module
-    - name: Terraform Init - networks
-      working-directory: ../Terraform/Env/networks
+    # Initialize a new or existing Terraform working directory
+    - name: Terraform Init
       run: terraform init
 
-    - name: Terraform Plan - networks
-      working-directory: ../Terraform/Env/networks
+    # Generate an execution plan for Terraform
+    - name: Terraform Plan
       run: terraform plan -input=false
 
-    - name: Terraform Apply - networks
-      working-directory: ../Terraform/Env/networks
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
-
-    # Deploy the 'servers' module
-    - name: Terraform Init - servers
-      working-directory: ../Terraform/Env/servers
-      run: terraform init
-
-    - name: Terraform Plan - servers
-      working-directory: ../Terraform/Env/servers
-      run: terraform plan -input=false
-
-    - name: Terraform Apply - servers
-      working-directory: ../Terraform/Env/servers
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
-    - name: Terraform Apply - servers
-      working-directory: ./../Terraform/Env/servers
+    # Apply Terraform configuration on push to main branch
+    - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
