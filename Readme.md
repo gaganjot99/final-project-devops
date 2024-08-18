@@ -8,21 +8,21 @@ img1.jpg
 img2.jpg
 img3.jpg
 
-cd Terraform/Env/networks
-terraform init
-terraform plan
-terraform apply --auto-approve
+`cd Terraform/Env/networks`
+`terraform init`
+`terraform plan`
+`terraform apply --auto-approve`
 
-cd Terraform/Env/webservers
-ssh-keygen -t rsa -f group3 
-terraform init
-terraform plan
-terraform apply --auto-approve
+`cd Terraform/Env/webservers`
+`ssh-keygen -t rsa -f group3` 
+`terraform init`
+`terraform plan`
+`terraform apply --auto-approve`
 
 ---for Ansible run
 
-cd Ansible/
-ssh-keygen -t rsa -f group3 
+`cd Ansible/`
+copy the ssh key from webserver to ansible folder
 
 --update the ip address the in the hosts.yml to public ip address of public-vm-2 and public-vm-3
 --run the following command:
