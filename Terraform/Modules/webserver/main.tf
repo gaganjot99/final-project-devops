@@ -53,6 +53,11 @@ resource "aws_instance" "private_servers" {
   security_groups             = var.private_sgs_ids
   subnet_id                   = var.private_subnet_ids[count.index]
   associate_public_ip_address = false
+    user_data = count.index >= 2 ? null : templatefile("${path.module}/install_httpd2.sh.tpl",
+    {
+      env    = upper(var.env)
+    }
+  )
   tags = merge(var.default_tags,
     {
       "Name" = "${var.prefix}-private-vm-${count.index}"
