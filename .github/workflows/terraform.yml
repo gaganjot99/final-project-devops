@@ -76,6 +76,7 @@ jobs:
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: us-west-1  
         # Replace with your preferred AWS region
+
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -87,6 +88,7 @@ jobs:
       run: terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
+
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
