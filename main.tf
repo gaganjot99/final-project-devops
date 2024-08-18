@@ -56,10 +56,6 @@ resource "aws_subnet" "public_subnet" {
 
 resource "aws_route_table" "private_subnet_route_table" {
   vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.id
-  }
   tags = {
     Name = "${var.prefix}-route-table-private"
   }
@@ -67,10 +63,6 @@ resource "aws_route_table" "private_subnet_route_table" {
 
 resource "aws_route_table" "public_subnet_route_table" {
   vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
   tags = {
     Name = "${var.prefix}-route-table-public"
   }
