@@ -9,7 +9,6 @@ terraform {
   required_version = ">=0.14"
 }
 provider "aws" {
-  profile = "default"
   region  = "us-east-1"
 }
 
@@ -26,7 +25,7 @@ resource "aws_vpc" "main" {
   instance_tenancy = "default"
   tags = merge(
     local.default_tags, {
-      Name = "${var.prefix}-vpc"
+      Name = "${var.prefix}-vpc2"
     }
   )
 }
@@ -57,10 +56,6 @@ resource "aws_subnet" "public_subnet" {
 
 resource "aws_route_table" "private_subnet_route_table" {
   vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.id
-  }
   tags = {
     Name = "${var.prefix}-route-table-private"
   }
@@ -68,10 +63,6 @@ resource "aws_route_table" "private_subnet_route_table" {
 
 resource "aws_route_table" "public_subnet_route_table" {
   vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
   tags = {
     Name = "${var.prefix}-route-table-public"
   }
@@ -89,22 +80,5 @@ resource "aws_route_table_association" "public_route_table_association" {
   subnet_id      = aws_subnet.public_subnet[count.index].id
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
 
-  tags = merge(local.default_tags,
-    {
-      "Name" = "${var.prefix}-igw"
-    }
-  )
-}
-
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
-
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_subnet[0].id
-}
 
